@@ -2,9 +2,10 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
-#define MAX 50
+#define MAX 5
 using namespace std;
-
+ // araykopo
+ 
 // ---------------------------------------------------------
 // 1. LIST INFORMATION (per assignment spec) - LOCK THESE NAMES FIRST
 // ---------------------------------------------------------
@@ -14,7 +15,7 @@ struct Account {
     string birthday;    // "MM/DD/YYYY"
     string contactNum;
     double balance;      // Initial Deposit, min 5000
-    string pin;          // stores ENCRYPTED pin, max 6 digits
+    string pin;          // stores ENCRYPTED pin, max 6 digits, 4 min
 };
 
 // ---------------------------------------------------------
