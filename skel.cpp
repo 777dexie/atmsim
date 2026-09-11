@@ -4,7 +4,6 @@
 #include <sstream>
 #define MAX 5
 using namespace std;
- // araykopo
  
 // ---------------------------------------------------------
 // 1. LIST INFORMATION (per assignment spec) - LOCK THESE NAMES FIRST
@@ -138,10 +137,14 @@ void ATMAccounts::retrieve() {
 // ---------------------------------------------------------
 string encryptPin(string pin) {
     // TODO: e.g. shift each digit by a fixed key
+    // para raw di kita sa saved file yung real pin, shift tayo up by 3 digits
+    // so like eg. 1234 real pin, magiging 4567
     return pin;
 }
 string decryptPin(string encrypted) {
     // TODO: reverse of encryptPin
+    // exact opposite naman dito
+    // eg. encrypted pin is 4567, magiging 1234 which is nung real pin
     return encrypted;
 }
 
@@ -160,6 +163,8 @@ bool readCard(string drivePath, string &accNo, string &encryptedPin) {
     // TODO: read accNo + encryptedPin from drivePath + "/pin.code"
     return false;
 }
+
+// ako na from encryptPin to readCard
 
 // ===========================================================
 // MODULE 1: REGISTRATION   (JC)
@@ -190,7 +195,7 @@ void changePin(ATMAccounts &list, string drivePath, string accNo, string newPin)
     // TODO: encryptPin(newPin), update pd[i].pin via list.get(i), rewrite card file
 }
 
-// --- ME: Withdraw, Deposit, Fund Transfer ---
+// --- DEX: Withdraw, Deposit, Fund Transfer ---
 void withdraw(ATMAccounts &list, string accNo, double amount) {
     // TODO: find index, validate sufficient balance, update balance, list.save()
 }
