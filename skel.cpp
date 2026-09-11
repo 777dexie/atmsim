@@ -1,18 +1,3 @@
-/*
-    ATM SIMULATION - PROJECT SKELETON (Array-of-Structures / OOP version)
-    Built directly on the professor's Person/Record pattern
-    (isfull/isempty/locate, addRec/delRec/display, save/retrieve via CSV)
-
-    Split (agreed):
-      - JC:    Registration + Balance Inquiry + Change PIN
-      - ME:    Withdraw + Deposit + Fund Transfer
-      - SHARED (agree together first): Account struct fields below,
-        and the ATMAccounts class itself (both test against it before splitting)
-
-    NOTE: MAX caps the number of accounts (array-of-structures limitation).
-    Raise it to whatever your class expects to test with.
-*/
-
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -40,11 +25,11 @@ private:
     Account pd[MAX];
     int last;
 
-    bool isfull();
-    bool isempty();
+    bool isFull();
+    bool isEmpty();
     int locate(string accNo);      // same role as Person::locate, keyed on accNo
 public:
-    void makenull();
+    void makeNull();
     void addRec(Account x);
     void delRec(string accNo);
     int find(string accNo);        // public wrapper so Transactions can check enrollment/PIN
@@ -54,10 +39,10 @@ public:
     void retrieve();
 };
 
-bool ATMAccounts::isfull() {
+bool ATMAccounts::isFull() {
     return (last == MAX - 1);
 }
-bool ATMAccounts::isempty() {
+bool ATMAccounts::isEmpty() {
     return (last == -1);
 }
 int ATMAccounts::locate(string accNo) {
@@ -66,11 +51,11 @@ int ATMAccounts::locate(string accNo) {
             return i;
     return -1;
 }
-void ATMAccounts::makenull() {
+void ATMAccounts::makeNull() {
     last = -1;
 }
 void ATMAccounts::addRec(Account x) {
-    if (isfull()) {
+    if (isFull()) {
         cout << "List is full.\n";
         system("pause");
     } else {
@@ -80,7 +65,7 @@ void ATMAccounts::addRec(Account x) {
 }
 void ATMAccounts::delRec(string accNo) {
     int i, p;
-    if (isempty()) {
+    if (isEmpty()) {
         cout << "Nothing to delete.\n";
         system("pause");
     } else {
@@ -178,7 +163,7 @@ bool readCard(string drivePath, string &accNo, string &encryptedPin) {
 // ===========================================================
 // MODULE 1: REGISTRATION   (JC)
 // ===========================================================
-void registerAccount(ATMAccounts &list, string drivePath) {
+void regAccount(ATMAccounts &list, string drivePath) {
     Account acc;
     // TODO:
     // 1. Prompt accName, birthday, contactNum, initial deposit (validate >= 5000)
@@ -197,7 +182,7 @@ void registerAccount(ATMAccounts &list, string drivePath) {
 // list.find() + compare decryptPin() against the card's PIN.
 
 // --- JC: Balance Inquiry + Change PIN ---
-void balanceInquiry(ATMAccounts &list, string accNo) {
+void balInquiry(ATMAccounts &list, string accNo) {
     // TODO: int i = list.find(accNo); display list.get(i).balance
 }
 void changePin(ATMAccounts &list, string drivePath, string accNo, string newPin) {
@@ -223,14 +208,14 @@ int menu();
 
 int main() {
     ATMAccounts list;
-    list.makenull();
+    list.makeNull();
     list.retrieve();
 
     string drivePath = "D:/";   // adjust per testing setup
 
     while (true) {
         switch (menu()) {
-        case 1: /* registerAccount(list, drivePath); */ break;
+        case 1: /* regAccount(list, drivePath); */ break;
         case 2: /* transaction menu -> check cardPresent() first */ break;
         case 3: list.display(); break;
         case 4: list.save(); exit(0);
