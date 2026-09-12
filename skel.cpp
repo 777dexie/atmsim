@@ -136,15 +136,13 @@ void ATMAccounts::retrieve() {
 // 3. PIN ENCRYPTION - decide the scheme together, then implement
 // ---------------------------------------------------------
 string encryptPin(string pin) {
-    // TODO: e.g. shift each digit by a fixed key
-    // para raw di kita sa saved file yung real pin, shift tayo up by 3 digits
-    // so like eg. 1234 real pin, magiging 4567
+    // reverse ang pin then shift up by 3
+    // e.g. user pin is 1234 -> 4321 -> 7654    
     return pin;
 }
 string decryptPin(string encrypted) {
     // TODO: reverse of encryptPin
     // exact opposite naman dito
-    // eg. encrypted pin is 4567, magiging 1234 which is nung real pin
     return encrypted;
 }
 
