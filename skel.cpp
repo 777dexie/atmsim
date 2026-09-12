@@ -145,15 +145,25 @@ string encryptPin(string pin) {
 
     string encrypted = reversed;
     for (int i = 0; i < encrypted.length(); i++) {
-        int digit = encrypted[i] - '0';
+        int digit = encrypted[i] - '0'; // converts from string to int
             digit = (digit + 3) % 10;
-            encrypted[i] = digit + '0';
+            encrypted[i] = digit + '0'; // converts back from int to string
     }  return encrypted;
 }
 string decryptPin(string encrypted) {
     // TODO: reverse of encryptPin
     // exact opposite naman dito
-    return encrypted;
+    string shifted = encrypted;
+    for (int i = 0; i < shifted.length(); i++) {
+        int digit = shifted[i] - '0'; // converts from string to int
+        digit = (digit + 10 - 3) % 10; // shift down by 3
+        shifted[i] = digit + '0';
+    }
+    string original = "";
+    for (int i = shifted.length() - 1; i >= 0; i--) {
+        original += shifted[i]; // baliktarin back to original
+    }    
+    return original;
 }
 
 // ---------------------------------------------------------
