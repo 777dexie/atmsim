@@ -137,8 +137,18 @@ void ATMAccounts::retrieve() {
 // ---------------------------------------------------------
 string encryptPin(string pin) {
     // reverse ang pin then shift up by 3
-    // e.g. user pin is 1234 -> 4321 -> 7654    
-    return pin;
+    // e.g. user pin is 1234 -> 4321 -> 7654
+    string reversed = "";
+    for (int i = pin.length() - 1; i >= 0; i--) {   // start sa last digit
+        reversed += pin[i];
+    }
+
+    string encrypted = reversed;
+    for (int i = 0; i < encrypted.length(); i++) {
+        int digit = encrypted[i] - '0';
+            digit = (digit + 3) % 10;
+            encrypted[i] = digit + '0';
+    }  return encrypted;
 }
 string decryptPin(string encrypted) {
     // TODO: reverse of encryptPin
