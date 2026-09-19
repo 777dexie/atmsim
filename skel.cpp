@@ -185,7 +185,17 @@ void writeCard(string drivePath, string accNo, string encryptedPin) {
 }
 bool readCard(string drivePath, string &accNo, string &encryptedPin) {
     // TODO: read accNo + encryptedPin from drivePath + "/pin.code"
-    return false;
+    ifstream file (drivePath + "pin.code");
+        if (!file) {
+            cout << "File error!" << endl;
+            return false;
+        }
+    string line;
+    getline(file, line);
+        stringstream ss(line);
+        getline(ss, accNo, ',');
+        getline (ss, encryptedPin);
+    return true;
 }
 
 // ako na from encryptPin to readCard
