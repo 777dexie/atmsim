@@ -151,7 +151,6 @@ string encryptPin(string pin) {
     }  return encrypted;
 }
 string decryptPin(string encrypted) {
-    // TODO: reverse of encryptPin
     // exact opposite naman dito
     string shifted = encrypted;
     for (int i = 0; i < shifted.length(); i++) {
@@ -170,10 +169,14 @@ string decryptPin(string encrypted) {
 // 4. FLASH DRIVE AS ATM CARD
 // ---------------------------------------------------------
 bool cardPresent(string drivePath) {
-    // TODO: check for pin.code file at drivePath; if missing, print
-    // "Please insert card." and return false
-    return false;
+    ifstream file(drivePath + "pin.code");
+    if (!file) {
+        cout << "Please insert card.";
+        return false;
+    }
+    return true;
 }
+
 void writeCard(string drivePath, string accNo, string encryptedPin) {
     // TODO: write accNo + encryptedPin to drivePath + "/pin.code"
 }
