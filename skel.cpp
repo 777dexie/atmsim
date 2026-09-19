@@ -179,6 +179,9 @@ bool cardPresent(string drivePath) {
 
 void writeCard(string drivePath, string accNo, string encryptedPin) {
     // TODO: write accNo + encryptedPin to drivePath + "/pin.code"
+    ofstream file (drivePath + "pin.code");
+        file << accNo << "," << encryptedPin << endl;
+     file.close();
 }
 bool readCard(string drivePath, string &accNo, string &encryptedPin) {
     // TODO: read accNo + encryptedPin from drivePath + "/pin.code"
