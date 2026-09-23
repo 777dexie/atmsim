@@ -305,7 +305,18 @@ void withdraw(ATMAccounts &list, string accNo, double amount) {
     system("pause");
 }
 void deposit(ATMAccounts &list, string accNo, double amount) {
-    // TODO: find index, update balance, list.save()
+    int i = list.find(accNo);
+    if (i < 0) {
+        cout << "Account not found.\n";
+    } else if (amount <= 0) {
+        cout << "Error: Amount must be greater than zero.\n";
+    } else {
+        list.get(i).balance += amount;
+        list.save();
+        cout << "Deposit successful.\n";
+        cout << "New Balance: Php " << fixed << setprecision(2) << list.get(i).balance << "\n";
+    }
+    system("pause");
 }
 void fundTransfer(ATMAccounts &list, string fromAcc, string toAcc, double amount) {
     // TODO: list.find(toAcc) must be >= 0 (enrolled accounts only),
