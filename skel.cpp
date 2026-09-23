@@ -200,15 +200,58 @@ bool readCard(string drivePath, string &accNo, string &encryptedPin) {
 // MODULE 1: REGISTRATION   (JC)
 // ===========================================================
 void regAccount(ATMAccounts &list, string drivePath) {
+    system("cls");
+    if (list.isFull()) {
+        cout << "System Error: Maximum number of accounts (" << MAX << ") reached.\n";
+        cout << "Cannot register a new account at this time.\n";
+        system("pause");
+        return; 
+    }
     Account acc;
-    // TODO:
-    // 1. Prompt accName, birthday, contactNum, initial deposit (validate >= 5000)
-    // 2. Generate/prompt 5-digit accNo, check list.find() to avoid duplicates
-    // 3. Prompt PIN (4 digits + ENTER key, max 6 digits)
-    // 4. acc.pin = encryptPin(rawPin)
-    // 5. list.addRec(acc)
-    // 6. writeCard(drivePath, acc.accNo, acc.pin)
-    // 7. list.save()
+    cout << "--- NEW ACCOUNT REGISTRATION ---\n";
+    
+    do {
+        cout << "Enter 5-digit Account Number: ";
+        cin >> acc.accNo;
+        if (acc.accNo.length() != 5) 
+            cout << "Error: Must be exactly 5 digits.\n";
+        else if (list.find(acc.accNo) != -1) 
+            cout << "Error: Account number already exists in the system.\n";
+    } while (acc.accNo.length() != 5 || list.find(acc.accNo) != -1);
+    
+    cin.ignore();
+    
+    cout << "Enter Account Name: ";
+    getline(cin, acc.accName);
+    
+    cout << "Enter Birthday (MM/DD/YYYY): ";
+    getline(cin, acc.birthday);
+    
+    cout << "Enter Contact Number: ";
+    getline(cin, acc.contactNum);
+    
+    do {
+        cout << "Enter Initial Deposit (Min 5000): Php ";
+        cin >> acc.balance;
+        if (acc.balance < 5000)
+            cout << "Error: Minimum initial deposit is Php 5000.\n";
+    } while (acc.balance < 5000);
+    
+    string rawPin;
+    do {
+        cout << "Enter PIN Code (4 to 6 digits): ";
+        cin >> rawPin;
+        if (rawPin.length() < 4 || rawPin.length() > 6)
+            cout << "Error: PIN must be between 4 and 6 digits.\n";
+    } while (rawPin.length() < 4 || rawPin.length() > 6);
+
+    acc.pin = encryptPin(rawPin);
+    list.addRec(acc);
+    writeCard(drivePath, acc.accNo, acc.pin);
+    list.save();
+    
+    cout << "\nRegistration Successful! ATM Card data written.\n";
+    system("pause");
 }
 
 // ===========================================================
@@ -219,10 +262,29 @@ void regAccount(ATMAccounts &list, string drivePath) {
 
 // --- JC: Balance Inquiry + Change PIN ---
 void balInquiry(ATMAccounts &list, string accNo) {
-    // TODO: int i = list.find(accNo); display list.get(i).balance
+    int i = list.find(accNo);
+    cout << "\nAccount Name: " << list.get(i).accName;
+    cout << "\nCurrent Balance: Php " << fixed << setprecision(2) << list.get(i).balance << "\n";
+    system("pause");
 }
-void changePin(ATMAccounts &list, string drivePath, string accNo, string newPin) {
-    // TODO: encryptPin(newPin), update pd[i].pin via list.get(i), rewrite card file
+
+void changePin(ATMAccounts &list, string drivePath, string accNo) {
+    int i = list.find(accNo);
+    string newPin;
+    
+    do {
+        cout << "Enter New PIN (4 to 6 digits): ";
+        cin >> newPin;
+        if (newPin.length() < 4 || newPin.length() > 6)
+            cout << "Error: PIN must be between 4 and 6 digits.\n";
+    } while (newPin.length() < 4 || newPin.length() > 6);
+    
+    list.get(i).pin = encryptPin(newPin);
+    writeCard(drivePath, accNo, list.get(i).pin);
+    list.save(); 
+    
+    cout << "PIN Code successfully changed.\n";
+    system("pause");
 }
 
 // --- DEX: Withdraw, Deposit, Fund Transfer ---
