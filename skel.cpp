@@ -319,8 +319,29 @@ void deposit(ATMAccounts &list, string accNo, double amount) {
     system("pause");
 }
 void fundTransfer(ATMAccounts &list, string fromAcc, string toAcc, double amount) {
-    // TODO: list.find(toAcc) must be >= 0 (enrolled accounts only),
-    // then subtract from fromAcc, add to toAcc
+    int from = list.find(fromAcc);
+    int to = list.find(toAcc);
+
+    if (from < 0) {
+        cout << "Sender account not found.\n";
+    } else if (to < 0) {
+        cout << "Error: Recipient account is not enrolled.\n";
+    } else if (from == to) {
+        cout << "Error: Cannot transfer to your own account.\n";
+    } else if (amount <= 0) {
+        cout << "Error: Amount must be greater than zero.\n";
+    } else if (amount > list.get(from).balance) {
+        cout << "Error: Insufficient balance.\n";
+    } else {
+        list.get(from).balance -= amount;
+        list.get(to).balance += amount;
+        list.save();
+        cout << "Transfer successful.\n";
+        cout << "Transferred Php " << fixed << setprecision(2) << amount
+             << " to " << list.get(to).accName << ".\n";
+        cout << "Your New Balance: Php " << list.get(from).balance << "\n";
+    }
+    system("pause");
 }
 
 // ===========================================================
